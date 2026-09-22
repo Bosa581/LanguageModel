@@ -1,0 +1,78 @@
+﻿Orobosa Igbinovia
+Exploration Report
+
+
+In addition to the required MLE and Laplace estimators, I implemented
+the optional Dirichlet, Jelinek-Mercer, and interpolated Kneser-Ney
+estimators directly in language_model.py, using the optional method
+stubs provided in the starter code.
+
+To identify sentences in the test dataset with the lowest and highest perplexities, I selected the three lowest-perplexity and three highest-perplexity sentences for each estimation method, making it easier to spot patterns.
+
+Estimation method-- MLE
+
+Three lowest-perplexity Treebank sentences:
+9.297237138108073 IRAs .
+9.505756236243782 It was outrageous .
+19.461440768882177 The '82 Salon is $ 115 *U* .
+
+Three highest-perplexity Treebank sentences:
+inf you will not put the financial system in jeopardy . ' ''
+inf it was just another one of the risk factors '' that *T*-17 led to the company 's decision * to withdraw from the bidding , he added 0 *T*-1 .
+inf b - Current annual yield .
+
+Estimation method-- Laplace
+
+Three lowest-perplexity Treebank sentences:
+13.456910993743005 IRAs .
+18.7106647484962 It was outrageous .
+43.82545975920344 The '82 Salon is $ 115 *U* .
+
+Three highest-perplexity Treebank sentences:
+25155.53111887621 Treasury Securities
+21991.647213930068 Municipal Issues
+17486.285687395903 Foreign Bond
+
+Estimation method-- Dirichlet
+
+Three lowest-perplexity Treebank sentences:
+9.71618979863922 IRAs .
+10.542911707897145 It was outrageous .
+24.31431122625748 The '82 Salon is $ 115 *U* .
+
+Three highest-perplexity Treebank sentences:
+28286.016698658215 Treasury Securities
+22968.033058338766 Municipal Issues
+17385.056834128955 Foreign Bond
+
+Estimation method-- Jelinek-Mercer
+
+Three lowest-perplexity Treebank sentences:
+10.70311888130953 IRAs .
+13.042233670375143 It was outrageous .
+24.45860183476768 The '82 Salon is $ 115 *U* .
+
+Three highest-perplexity Treebank sentences:
+18132.2049542671 Inventor Claire Marvin says 0 his design virtually eliminates spilling .
+9532.712981595174 Treasury Securities
+5810.7302513243685 U.S. chip makers are facing continued slack demand following a traditionally slow summer .
+
+Kneser-Ney
+
+Three lowest-perplexity Treebank sentences:
+9.261917003824932 IRAs .
+9.478716689797393 It was outrageous .
+19.406347026794307 The '82 Salon is $ 115 *U* .
+
+Three highest-perplexity Treebank sentences:
+52115.860578034255 Treasury Securities
+39948.4518947199 Inventor Claire Marvin says 0 his design virtually eliminates spilling .
+28403.562221925597 Foreign Bond
+
+Summary and discussion
+
+All five estimation methods ranked the same three sentences lowest in perplexity: "IRAs .", "It was outrageous .", and "The '82 Salon is $ 115 *U* ." Although these examples are short, the results do not establish that shorter sentences generally have lower perplexity. For example, "IRAs ." and "Treasury Securities" both contain two tokens, yet their perplexities differ greatly. Perplexity is computed from the average log probability of the bigram transitions, including sentence boundaries, so a longer sentence does not automatically have a higher score. Unknown-word replacement may affect the rankings, but these results alone do not establish its contribution.
+
+The highest-perplexity rankings show both similarities and differences across methods. Laplace and Dirichlet select the same three examples in the same order: "Treasury Securities", "Municipal Issues", and "Foreign Bond". Jelinek-Mercer and Kneser-Ney have somewhat different rankings, although both include "Treasury Securities" and the sentence beginning "Inventor Claire Marvin". These observations show that the estimation method can change which sentences receive the highest perplexities, even when the lowest-perplexity rankings agree.
+
+MLE differs from the other methods because it assigns zero probability to bigrams that never appeared in the Brown training data. Even if both words appeared individually in training, their combination may be unseen. A single zero-probability bigram makes a sentence's MLE perplexity infinite. Therefore, the three displayed high-perplexity MLE sentences are examples tied at infinity, rather than uniquely the three hardest sentences. Laplace, Dirichlet, Jelinek-Mercer, and Kneser-Ney use smoothing and produce finite perplexities for the examples shown. These selected extremes illustrate differences between the methods, but do not establish which method performs best overall.
